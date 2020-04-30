@@ -24,17 +24,28 @@ function runEnter() {
     d3.event.preventDefault();
     
     var inputElement = d3.select("#datetime");
-    var inputValue = inputElement.property("value");
+    var inputValue = inputElement.property("value").toLowerCase();
 
-    var filteredData = tableData.filter(date => date.datetime === inputValue);
-    console.log(filteredData);
+    var filteredData = tableData.filter(value => value.datetime === inputValue ||
+                                                 value.city === inputValue ||
+                                                 value.state === inputValue ||
+                                                 value.country === inputValue ||
+                                                 value.shape === inputValue ||
+                                                 value.durationMinutes === inputValue ||
+                                                 value.comments.includes(inputValue));
+                                                 
+                                                 
 
-    filteredData.forEach(function(dateSelected){
-        console.log(dateSelected);
+    tbody.html("");
+
+
+    filteredData.forEach(function(dataSelected){
+        console.log(dataSelected);
+        
         var row = tbody.append("tr");
-        Object.entries(dateSelected).forEach(function([key, value]){
+        
+        Object.entries(dataSelected).forEach(function([key, value]){
             console.log(key, value);
-
             var cell = row.append("td");
             cell.text(value);
         });
